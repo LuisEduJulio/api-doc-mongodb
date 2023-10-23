@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<RootNamespace>api_doc_mongodb.application</RootNamespace>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MongoDB.Bson" Version="2.22.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\api-doc-mongodb.domain\api-doc-mongodb.domain.csproj" />
+		<ProjectReference Include="..\api-doc-mongodb.infraestructure\api-doc-mongodb.infraestructure.csproj" />
+	</ItemGroup>
+
+</Project>
