@@ -1,5 +1,6 @@
 ﻿using api_doc_mongodb.infraestructure.Entities;
 using api_doc_mongodb.ioc.Registers;
+using api_doc_mongodb.utility.Utils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
@@ -44,12 +45,20 @@ namespace api_doc_mongodb.ioc.Dependencies
 
             Services.AddCors(c =>
             {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyMethod().AllowAnyHeader());
+                c.AddPolicy(EnvironmentHelper.GetCross(),
+                    options => options
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
             });
 
             Services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API DOC MONGODB", Version = "v1" });
+                c.SwaggerDoc(EnvironmentHelper.GetVersionApi(),
+                    new OpenApiInfo
+                    {
+                        Title = EnvironmentHelper.GetApplicationName(),
+                        Version = EnvironmentHelper.GetVersionApi()
+                    });
             });
 
             Services.AddEndpointsApiExplorer();

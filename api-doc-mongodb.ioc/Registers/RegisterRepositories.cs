@@ -9,7 +9,8 @@ namespace api_doc_mongodb.ioc.Registers
         public static void RegisterRepositories(this IServiceCollection services)
         {
             services
-                .AddSingleton<ICustomerRepository, CustomerRepository>();
+                .AddSingleton<ICustomerRepository, CustomerRepository>()
+                .AddSingleton<IEmailSenderRepository, EmailSenderRepository>();
         }
     }
 }

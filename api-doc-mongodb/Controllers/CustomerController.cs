@@ -14,7 +14,7 @@ namespace api_doc_mongodb.Controllers
             _customerService = customerService;
         }
         [HttpGet("getcustomer")]
-        public async Task<IActionResult> GetCustomersAsync([FromQuery] string ObjectId)
+        public async Task<IActionResult> GetByObjectIdAsync([FromQuery] string ObjectId)
         {
             var ResultService = await _customerService.GetByObjectIdAsync(ObjectId);
 
@@ -44,9 +44,19 @@ namespace api_doc_mongodb.Controllers
                 return BadRequest(ResultService);
         }
         [HttpPut("updatecustomer")]
-        public async Task<IActionResult> PostCreateCustomerAsync([FromQuery] string ObjectId, [FromBody] CustomerUpdateDto CustomerUpdateDto)
+        public async Task<IActionResult> UpdateCustomerAsync([FromQuery] string ObjectId, [FromBody] CustomerUpdateDto CustomerUpdateDto)
         {
             var ResultService = await _customerService.UpdateCreateCustomerAsync(ObjectId, CustomerUpdateDto);
+
+            if (ResultService.Success)
+                return Ok(ResultService);
+            else
+                return BadRequest(ResultService);
+        }
+        [HttpDelete("deletecustomer")]
+        public async Task<IActionResult> DeleteCustomerByObjectIdAsync([FromQuery] string ObjectId)
+        {
+            var ResultService = await _customerService.DeleteCustomerByObjectIdAsync(ObjectId);
 
             if (ResultService.Success)
                 return Ok(ResultService);

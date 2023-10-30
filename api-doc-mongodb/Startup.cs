@@ -1,5 +1,4 @@
-﻿using api_doc_mongodb.infraestructure.Mapper;
-using api_doc_mongodb.ioc.Dependencies;
+﻿using api_doc_mongodb.ioc.Dependencies;
 
 namespace api_doc_mongodb
 {
@@ -22,7 +21,7 @@ namespace api_doc_mongodb
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Truck.Api v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mongo Doc v1"));
             }
 
             app.UseHttpsRedirection();

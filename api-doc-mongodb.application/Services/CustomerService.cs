@@ -7,7 +7,7 @@ using api_doc_mongodb.domain.Services;
 using api_doc_mongodb.utility.Utils;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
-using MongoDB.Bson;
+using System.Net.Mail;
 
 namespace api_doc_mongodb.application.Services
 {
@@ -16,15 +16,18 @@ namespace api_doc_mongodb.application.Services
         private readonly ILogger<CustomerService> _logger;
         private readonly IMapper _mapper;
         private readonly ICustomerRepository _customerRepository;
+        private readonly IEmailSenderRepository _emailSenderRepository;
         public CustomerService(
             ILogger<CustomerService> logger,
             IMapper mapper,
-            ICustomerRepository customerRepository
+            ICustomerRepository customerRepository,
+            IEmailSenderRepository emailSenderRepository
             )
         {
             _logger = logger;
             _mapper = mapper;
             _customerRepository = customerRepository;
+            _emailSenderRepository = emailSenderRepository;
         }
         public async Task<ResultService<GetCustomersModelView>> GetByObjectIdAsync(string ObjectId)
         {
@@ -34,10 +37,10 @@ namespace api_doc_mongodb.application.Services
 
             var ResultRepository = await _customerRepository.GetCustomerByObjectIdAsync(objectId);
 
-            if (!ResultRepository.Success)
+            if (!ResultRepository.Success || ResultRepository.Data == null)
             {
                 ResultService.Success = ResultRepository.Success;
-                ResultService.Message = ResultRepository.Message;
+                ResultService.Message = "Customer Not Exist!";
 
                 return ResultService;
             }
@@ -105,6 +108,8 @@ namespace api_doc_mongodb.application.Services
                 return ResultService;
             }
 
+            await SendEmail(Customer, "Novo Cliente!");
+
             var CustomerCreatedModelView = _mapper.Map<CustomerCreatedModelView>(newCustomer.Data);
 
             ResultService.Success = ResultRepository.Success;
@@ -132,16 +137,45 @@ namespace api_doc_mongodb.application.Services
 
                 return ResultService;
             }
-           
+
             ResultService.Success = ResultRepository.Success;
             ResultService.Message = ResultRepository.Message;
             ResultService.Data = ResultRepository.Data;
 
             return ResultService;
         }
-        public Task<ResultService<bool>> DeleteAsync(string id)
+        public async Task<ResultService<bool>> DeleteCustomerByObjectIdAsync(string ObjectId)
         {
-            throw new NotImplementedException();
+            var ResultService = new ResultService<bool>();
+
+            var objectId = HelpersObjectId.ConvertToStringForObjectId(ObjectId);
+
+            var ResultRepository = await _customerRepository.DeleteAsync(objectId);
+
+            if (!ResultRepository.Success && !ResultRepository.Success)
+            {
+                ResultService.Success = ResultRepository.Success;
+                ResultService.Message = ResultRepository.Message;
+
+                return ResultService;
+            }
+
+            ResultService.Success = ResultRepository.Success;
+            ResultService.Message = ResultRepository.Message;
+            ResultService.Data = ResultRepository.Data;
+
+            return ResultService;
+        }
+        private async Task SendEmail(Customer Customer, string Theme)
+        {
+            var message = new MailMessage
+            {
+                Subject = Theme,
+                IsBodyHtml = true,
+                Body = EmailBody.NewCustomerBodyEmail(Customer)
+            };
+
+            await _emailSenderRepository.SendEmailAsync(message, Customer.Email);
         }
     }
 }

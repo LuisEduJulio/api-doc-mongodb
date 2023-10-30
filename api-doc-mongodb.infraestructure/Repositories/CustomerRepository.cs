@@ -123,11 +123,11 @@ namespace api_doc_mongodb.infraestructure.Repositories
                 return ResultRepository;
             }
         }
-        public async Task<ResultRepository<bool>> UpdateCustomerAsync(ObjectId id, Customer Customer)
+        public async Task<ResultRepository<bool>> UpdateCustomerAsync(ObjectId ObjectId, Customer Customer)
         {
             try
             {
-                var filter = Builders<Customer>.Filter.Eq("_id", id);
+                var filter = Builders<Customer>.Filter.Eq("_id", ObjectId);
 
                 await _collection.ReplaceOneAsync(filter, Customer);
 
@@ -152,11 +152,12 @@ namespace api_doc_mongodb.infraestructure.Repositories
                 return ResultRepository;
             }
         }
-        public async Task<ResultRepository<bool>> DeleteAsync(string id)
+        public async Task<ResultRepository<bool>> DeleteAsync(ObjectId ObjectId)
         {
             try
             {
-                var filter = Builders<Customer>.Filter.Eq("_id", ObjectId.Parse(id));
+                var filter = Builders<Customer>.Filter.Eq("_id", ObjectId);
+
                 await _collection.DeleteOneAsync(filter);
 
                 var ResultRepository = new ResultRepository<bool>()
