@@ -181,6 +181,5 @@ namespace api_doc_mongodb.infraestructure.Repositories
                 return ResultRepository;
             }
         }
-
     }
 }

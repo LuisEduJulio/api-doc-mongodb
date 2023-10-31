@@ -1,4 +1,6 @@
 ﻿using api_doc_mongodb.ioc.Dependencies;
+using api_doc_mongodb.utility.Utils;
+using Microsoft.AspNetCore.Builder;
 
 namespace api_doc_mongodb
 {
@@ -11,17 +13,20 @@ namespace api_doc_mongodb
         public IConfiguration Configuration { get; }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.RegisterIocDependencies(Configuration);  
+            services.RegisterIocDependencies(Configuration);
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseCors(options => options
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mongo Doc v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint(EnvironmentHelper.GetApplicationSwagger(), EnvironmentHelper.GetApplicationName()));
             }
 
             app.UseHttpsRedirection();

@@ -8,7 +8,7 @@ namespace api_doc_mongodb.domain.Repositories
     {
         Task<ResultRepository<ObjectId>> InsertAsync(Customer document);
         Task<ResultRepository<bool>> UpdateCustomerAsync(ObjectId id, Customer document);
-        Task<ResultRepository<bool>> DeleteAsync(string id);
+        Task<ResultRepository<bool>> DeleteAsync(ObjectId ObjectId);
         Task<ResultRepository<Customer>> GetCustomerByObjectIdAsync(ObjectId ObjectId);
         Task<ResultRepository<List<Customer>>> GetListAsync();
     }
