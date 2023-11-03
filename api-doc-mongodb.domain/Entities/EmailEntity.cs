@@ -1,8 +1,8 @@
 ﻿namespace api_doc_mongodb.domain.Entities
 {
-    public class Email
+    public class EmailEntity
     {
-        public Email()
+        public EmailEntity()
         {
         }
         public List<string> To { get; set; }

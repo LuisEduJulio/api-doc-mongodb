@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "api-doc-mongodb.ioc", "api-
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "api-doc-mongodb.application", "api-doc-mongodb.application\api-doc-mongodb.application.csproj", "{E514339F-6507-4873-8E9D-BB80552AA310}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api-doc-mongodb.utility", "..\api-doc-mongodb.utility\api-doc-mongodb.utility.csproj", "{1C4FA7C0-CB57-4EAE-A7C3-F7B2A09D53F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "api-doc-mongodb.utility", "..\api-doc-mongodb.utility\api-doc-mongodb.utility.csproj", "{1C4FA7C0-CB57-4EAE-A7C3-F7B2A09D53F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api-doc-mongodb.test", "..\api-doc-mongodb.test\api-doc-mongodb.test.csproj", "{C5F5D219-C84C-494D-B0A3-DBF1D7A8B32E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{1C4FA7C0-CB57-4EAE-A7C3-F7B2A09D53F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C4FA7C0-CB57-4EAE-A7C3-F7B2A09D53F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C4FA7C0-CB57-4EAE-A7C3-F7B2A09D53F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5F5D219-C84C-494D-B0A3-DBF1D7A8B32E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5F5D219-C84C-494D-B0A3-DBF1D7A8B32E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5F5D219-C84C-494D-B0A3-DBF1D7A8B32E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5F5D219-C84C-494D-B0A3-DBF1D7A8B32E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

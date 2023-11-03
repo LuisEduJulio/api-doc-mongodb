@@ -10,7 +10,7 @@ namespace api_doc_mongodb.infraestructure.Mapper
     {
         public MapperCustomerProfile()
         {
-            CreateMap<CustomerCreateDto, Customer>()
+            CreateMap<CustomerCreateDto, CustomerEntity>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
@@ -19,17 +19,17 @@ namespace api_doc_mongodb.infraestructure.Mapper
                 .ForMember(dest => dest.Age, opt => opt.MapFrom(src => src.Age))
                 .ForMember(dest => dest.Doc, opt => opt.MapFrom(src => src.Doc));
 
-            CreateMap<Customer, CustomerCreatedModelView>()
+            CreateMap<CustomerEntity, CustomerCreatedModelView>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => HelpersObjectId.ConvertToObjectIdForString(src.Id)))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                 .ForMember(dest => dest.DateCreated, opt => opt.MapFrom(src => DateTime.Now.ToString("d")));
 
-            CreateMap<Customer, GetCustomersModelView>()
+            CreateMap<CustomerEntity, GetCustomersModelView>()
                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => HelpersObjectId.ConvertToObjectIdForString(src.Id)))
                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
 
-            CreateMap<CustomerUpdateDto, Customer>()
+            CreateMap<CustomerUpdateDto, CustomerEntity>()
               .ForMember(dest => dest.Id, opt => opt.Ignore())
               .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
@@ -38,7 +38,7 @@ namespace api_doc_mongodb.infraestructure.Mapper
               .ForMember(dest => dest.Age, opt => opt.MapFrom(src => src.Age))
               .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate));
 
-            CreateMap<Customer, CustomerUpdateModelView>()
+            CreateMap<CustomerEntity, CustomerUpdateModelView>()
               .ForMember(dest => dest.Id, opt => opt.MapFrom(src => HelpersObjectId.ConvertToObjectIdForString(src.Id)))
               .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))

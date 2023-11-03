@@ -12,7 +12,7 @@ namespace api_doc_mongodb.infraestructure.Repositories
     public class CustomerRepository : ICustomerRepository
     {
         private readonly ILogger<CustomerRepository> _logger;
-        private readonly IMongoCollection<Customer> _collection;
+        private readonly IMongoCollection<CustomerEntity> _collection;
         public CustomerRepository(
             ILogger<CustomerRepository> logger,
             IOptions<AppSettings> settings
@@ -28,7 +28,7 @@ namespace api_doc_mongodb.infraestructure.Repositories
                 {
                     var database = client.GetDatabase("mydevdb");
 
-                    _collection = database.GetCollection<Customer>("customers");
+                    _collection = database.GetCollection<CustomerEntity>("customers");
                 }
                 catch (Exception ex)
                 {
@@ -36,13 +36,13 @@ namespace api_doc_mongodb.infraestructure.Repositories
                 }
             }
         }
-        public async Task<ResultRepository<List<Customer>>> GetListAsync()
+        public async Task<ResultRepository<List<CustomerEntity>>> GetListAsync()
         {
             try
             {
                 var result = await _collection.Find(new BsonDocument()).ToListAsync();
 
-                var ResultRepository = new ResultRepository<List<Customer>>()
+                var ResultRepository = new ResultRepository<List<CustomerEntity>>()
                 {
                     Data = result,
                     Success = true
@@ -54,9 +54,9 @@ namespace api_doc_mongodb.infraestructure.Repositories
             {
                 _logger.LogError(ex.Message);
 
-                var ResultRepository = new ResultRepository<List<Customer>>()
+                var ResultRepository = new ResultRepository<List<CustomerEntity>>()
                 {
-                    Data = new List<Customer>(),
+                    Data = new List<CustomerEntity>(),
                     Success = false,
                     Message = ex.Message
                 };
@@ -64,15 +64,15 @@ namespace api_doc_mongodb.infraestructure.Repositories
                 return ResultRepository;
             }
         }
-        public async Task<ResultRepository<Customer>> GetCustomerByObjectIdAsync(ObjectId ObjectId)
+        public async Task<ResultRepository<CustomerEntity>> GetCustomerByObjectIdAsync(ObjectId ObjectId)
         {
             try
             {
-                var filter = Builders<Customer>.Filter.Eq("_id", ObjectId);
+                var filter = Builders<CustomerEntity>.Filter.Eq("_id", ObjectId);
 
                 var result = await _collection.Find(filter).FirstOrDefaultAsync();
 
-                var ResultRepository = new ResultRepository<Customer>()
+                var ResultRepository = new ResultRepository<CustomerEntity>()
                 {
                     Data = result,
                     Success = true
@@ -84,9 +84,9 @@ namespace api_doc_mongodb.infraestructure.Repositories
             {
                 _logger.LogError(ex.Message);
 
-                var ResultRepository = new ResultRepository<Customer>()
+                var ResultRepository = new ResultRepository<CustomerEntity>()
                 {
-                    Data = new Customer(),
+                    Data = new CustomerEntity(),
                     Success = false,
                     Message = ex.Message
                 };
@@ -94,7 +94,7 @@ namespace api_doc_mongodb.infraestructure.Repositories
                 return ResultRepository;
             }
         }
-        public async Task<ResultRepository<ObjectId>> InsertAsync(Customer customer)
+        public async Task<ResultRepository<ObjectId>> InsertAsync(CustomerEntity customer)
         {
             try
             {
@@ -123,11 +123,11 @@ namespace api_doc_mongodb.infraestructure.Repositories
                 return ResultRepository;
             }
         }
-        public async Task<ResultRepository<bool>> UpdateCustomerAsync(ObjectId ObjectId, Customer Customer)
+        public async Task<ResultRepository<bool>> UpdateCustomerAsync(ObjectId ObjectId, CustomerEntity Customer)
         {
             try
             {
-                var filter = Builders<Customer>.Filter.Eq("_id", ObjectId);
+                var filter = Builders<CustomerEntity>.Filter.Eq("_id", ObjectId);
 
                 await _collection.ReplaceOneAsync(filter, Customer);
 
@@ -156,7 +156,7 @@ namespace api_doc_mongodb.infraestructure.Repositories
         {
             try
             {
-                var filter = Builders<Customer>.Filter.Eq("_id", ObjectId);
+                var filter = Builders<CustomerEntity>.Filter.Eq("_id", ObjectId);
 
                 await _collection.DeleteOneAsync(filter);
 

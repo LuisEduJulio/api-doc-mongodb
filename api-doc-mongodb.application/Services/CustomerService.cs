@@ -86,17 +86,17 @@ namespace api_doc_mongodb.application.Services
         {
             var ResultService = new ResultService<CustomerCreatedModelView>();
 
-            var Customer = _mapper.Map<Customer>(customerAddDto);
+            var Customer = _mapper.Map<CustomerEntity>(customerAddDto);
 
             var ResultRepository = await _customerRepository.InsertAsync(Customer);
-
-            if (!ResultRepository.Success && !ResultRepository.Success)
+           
+            if (ResultRepository is not null && (!ResultRepository.Success && !ResultRepository.Success))
             {
                 ResultService.Success = ResultRepository.Success;
                 ResultService.Message = ResultRepository.Message;
 
                 return ResultService;
-            }
+            }          
 
             var newCustomer = await _customerRepository.GetCustomerByObjectIdAsync(ResultRepository.Data);
 
@@ -122,7 +122,15 @@ namespace api_doc_mongodb.application.Services
         {
             var ResultService = new ResultService<bool>();
 
-            var customer = _mapper.Map<Customer>(customerUpdateDto);
+            var customer = _mapper.Map<CustomerEntity>(customerUpdateDto);
+
+            if (string.IsNullOrEmpty(ObjectId))
+            {
+                ResultService.Success = false;
+                ResultService.Message = "ObjectId not Exist!";
+
+                return ResultService;
+            }
 
             var objectId = HelpersObjectId.ConvertToStringForObjectId(ObjectId);
 
@@ -130,7 +138,7 @@ namespace api_doc_mongodb.application.Services
 
             var ResultRepository = await _customerRepository.UpdateCustomerAsync(objectId, customer);
 
-            if (!ResultRepository.Success && !ResultRepository.Success)
+            if (!ResultRepository.Success)
             {
                 ResultService.Success = ResultRepository.Success;
                 ResultService.Message = ResultRepository.Message;
@@ -148,11 +156,19 @@ namespace api_doc_mongodb.application.Services
         {
             var ResultService = new ResultService<bool>();
 
+            if (string.IsNullOrEmpty(ObjectId))
+            {
+                ResultService.Success = false;
+                ResultService.Message = "ObjectId not Exist!";
+
+                return ResultService;
+            }
+
             var objectId = HelpersObjectId.ConvertToStringForObjectId(ObjectId);
 
             var ResultRepository = await _customerRepository.DeleteAsync(objectId);
 
-            if (!ResultRepository.Success && !ResultRepository.Success)
+            if (!ResultRepository.Success)
             {
                 ResultService.Success = ResultRepository.Success;
                 ResultService.Message = ResultRepository.Message;
@@ -166,7 +182,7 @@ namespace api_doc_mongodb.application.Services
 
             return ResultService;
         }
-        private async Task SendEmail(Customer Customer, string Theme)
+        private async Task SendEmail(CustomerEntity Customer, string Theme)
         {
             var message = new MailMessage
             {

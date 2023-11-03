@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace api_doc_mongodb.domain.Entities
 {
-    public class Customer
+    public class CustomerEntity
     {
         [BsonElement("_id")]
         public ObjectId Id { get; set; }
