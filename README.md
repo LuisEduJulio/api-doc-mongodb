@@ -18,6 +18,7 @@
 - Get Customer. 
 - Get By ObjectId Customer. 
 - Send E-mail Create Customer.
+- Unit Test
 ```
 ## Technologies, Architecture and Patterns
 ```
